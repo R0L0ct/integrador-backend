@@ -1,0 +1,82 @@
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  email   String   @unique
+  password String
+  role     String @default("customer")
+  customer Customer[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  description String
+  image String
+  price Int
+  stock Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  category Category? @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  categoryId String? @db.ObjectId
+  order_product OrderProduct[]
+}
+
+model Customer {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  lastname String
+  phone String
+  email String
+  adress Adress
+  createdAt DateTime @default(now())
+  user User? @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  userId String? @db.ObjectId 
+  order Order[]
+}
+
+model Category {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  product Product[]
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  total Int
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  customerId String? @db.ObjectId
+  createdAt DateTime @default(now())
+  order_product OrderProduct[]
+}
+
+model OrderProduct {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  amount Int
+  shipping_cost Int
+  createdAt DateTime @default(now())
+  order Order @relation(fields: [orderId], references: [id],onUpdate: Cascade, onDelete: Cascade)
+  product Product? @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  orderId String @db.ObjectId
+  productId String? @db.ObjectId
+
+}
+
+type Adress {
+  country String
+  state_province String
+  city String
+  adress String
+}
