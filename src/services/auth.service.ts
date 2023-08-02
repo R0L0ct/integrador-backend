@@ -39,14 +39,6 @@ const loginUser = async ({ email, password }: Auth) => {
   //   token,
   //   user: isCheck,
   // };
-  await prisma.user.update({
-    where: {
-      email: isCheck.email,
-    },
-    data: {
-      sessionToken: token,
-    },
-  });
   return token;
 };
 

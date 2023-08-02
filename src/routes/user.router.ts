@@ -8,17 +8,17 @@ import {
 } from "../controllers/user.controller";
 import express from "express";
 import { createUserSchema, updateUserSchema } from "../schemas/user.schema";
-import { isAuthenticated } from "../middlewares/authentication.middleware";
+import { checkSession } from "../middlewares/session.middleware";
 const router = express.Router();
 
-router.get("/", isAuthenticated, getAllUsers);
+router.get("/", checkSession, getAllUsers);
 
-router.get("/:id", isAuthenticated, getUser);
+router.get("/:id", checkSession, getUser);
 
 router.post("/", validatorHandler(createUserSchema, "body"), createUser);
 
 router.patch("/:id", validatorHandler(updateUserSchema, "body"), updateUser);
 
-router.delete("/:id", isAuthenticated, deleteUser);
+router.delete("/:id", checkSession, deleteUser);
 
 export default router;
