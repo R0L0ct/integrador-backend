@@ -35,11 +35,19 @@ const loginUser = async ({ email, password }: Auth) => {
   const isCorrect = await verified(password, passwordHash);
   if (!isCorrect) return "INCORRECT_PASSWORD";
   const token = generateToken(isCheck.email);
-  const data = {
-    token,
-    user: isCheck,
-  };
-  return data;
+  // const data = {
+  //   token,
+  //   user: isCheck,
+  // };
+  await prisma.user.update({
+    where: {
+      email: isCheck.email,
+    },
+    data: {
+      sessionToken: token,
+    },
+  });
+  return token;
 };
 
 export { registerNewUser, loginUser };
