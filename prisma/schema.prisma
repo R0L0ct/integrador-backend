@@ -17,6 +17,7 @@ model User {
   customer Customer[]
   createdAt DateTime  @default(now())
   updatedAt DateTime @updatedAt
+  sessionToken String? 
 }
 
 model Product {

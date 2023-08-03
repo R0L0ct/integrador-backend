@@ -41,4 +41,28 @@ const deleteUser = async (req: Request, res: Response) => {
   res.json(deleteUser);
 };
 
-export { getAllUsers, getUser, createUser, updateUser, deleteUser };
+const getUserBySessionToken = async (req: Request, res: Response) => {
+  const cookies = req.cookies["USER-AUTH"];
+  if (cookies) {
+    const getUser = await prisma.user.findFirst({
+      where: {
+        sessionToken: cookies,
+      },
+      select: {
+        name: true,
+        email: true,
+      },
+    });
+    // res.send(getUser);
+    res.json(getUser);
+  }
+};
+
+export {
+  getAllUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  getUserBySessionToken,
+};

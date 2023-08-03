@@ -1,5 +1,5 @@
 import { validatorHandler } from "../middlewares/validator.middleware";
-import { login, register } from "../controllers/auth.controller";
+import { login, logout, register } from "../controllers/auth.controller";
 import { Router } from "express";
 import { registerUserSchema } from "../schemas/register.schema";
 import { loginUserSchema } from "../schemas/login.schema";
@@ -11,5 +11,6 @@ router.post(
   register
 );
 router.post("/login", validatorHandler(loginUserSchema, "body"), login);
+router.post("/logout", logout);
 
 export default router;

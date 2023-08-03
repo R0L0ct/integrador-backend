@@ -5,6 +5,7 @@ import {
   getUser,
   getAllUsers,
   updateUser,
+  getUserBySessionToken,
 } from "../controllers/user.controller";
 import express from "express";
 import { createUserSchema, updateUserSchema } from "../schemas/user.schema";
@@ -12,6 +13,7 @@ import { checkSession } from "../middlewares/session.middleware";
 const router = express.Router();
 
 router.get("/", checkSession, getAllUsers);
+router.get("/isauth", getUserBySessionToken);
 
 router.get("/:id", checkSession, getUser);
 

@@ -39,6 +39,16 @@ const loginUser = async ({ email, password }: Auth) => {
   //   token,
   //   user: isCheck,
   // };
+  if (isCheck && isCorrect) {
+    await prisma.user.update({
+      where: {
+        email,
+      },
+      data: {
+        sessionToken: token,
+      },
+    });
+  }
   return token;
 };
 
