@@ -10,7 +10,7 @@ const register = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
   const responseUser = await loginUser(req.body);
   if (responseUser !== "NOT_FOUND_USER" && "INCORRECT_PASSWORD") {
-    res.cookie("USER-AUTH", responseUser, { sameSite: "lax", httpOnly: true });
+    res.cookie("USER-AUTH", responseUser, { sameSite: "lax" });
     res.setHeader("authorization", `Bearer ${responseUser}`);
     res.send("INGRESO EXITOSO");
   }

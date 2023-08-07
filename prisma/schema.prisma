@@ -32,6 +32,15 @@ model Product {
   category Category? @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: SetNull)
   categoryId String? @db.ObjectId
   order_product OrderProduct[]
+  inventoryItems InventoryItems[]
+}
+
+model InventoryItems {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  size    String
+  stock   Int
+  product Product? @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  productId String? @db.ObjectId
 }
 
 model Customer {

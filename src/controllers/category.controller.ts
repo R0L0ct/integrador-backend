@@ -8,7 +8,7 @@ const createNewCategory = async (req: Request, res: Response) => {
   res.json(createCategory);
 };
 
-const getAllCategories = async (req: Request, res: Response) => {
+const getAllCategories = async (_req: Request, res: Response) => {
   const getCategories = await prisma.category.findMany();
   res.json(getCategories);
 };
