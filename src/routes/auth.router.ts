@@ -1,8 +1,14 @@
 import { validatorHandler } from "../middlewares/validator.middleware";
-import { login, logout, register } from "../controllers/auth.controller";
+import {
+  login,
+  logout,
+  refreshToken,
+  register,
+} from "../controllers/auth.controller";
 import { Router } from "express";
 import { registerUserSchema } from "../schemas/register.schema";
 import { loginUserSchema } from "../schemas/login.schema";
+import { refreshTokenMid } from "../middlewares/session.middleware";
 
 const router = Router();
 router.post(
@@ -12,5 +18,6 @@ router.post(
 );
 router.post("/login", validatorHandler(loginUserSchema, "body"), login);
 router.post("/logout", logout);
+router.post("/refresh", refreshTokenMid, refreshToken);
 
 export default router;

@@ -5,18 +5,21 @@ import prisma from "config/prismaClient";
 
 interface RequestExt extends Request {
   user?: string | JwtPayload;
+  uid?: string | JwtPayload;
+}
+interface JWTPayload {
+  id: string | JwtPayload;
 }
 
 const checkSession = (req: RequestExt, res: Response, next: NextFunction) => {
   try {
-    const jwtByUser = req.headers["authorization"] || "";
+    const jwtByUser = req.headers.authorization || "";
     const jwt = jwtByUser.split(" ").pop();
-    const cookieToken = req.cookies["USER-AUTH"] || "";
-    if (jwt.toString() !== cookieToken.toString()) {
-      res.send("JWT Y COOKIES NO COINCIDEN");
+
+    if (!jwt) {
+      res.send("TOKEN NO VALIDO");
       return;
     }
-    // const jwt = jwtByUser;
     const isUser = verifyToken(`${jwt}`);
     if (!isUser) {
       res.status(400);
@@ -24,6 +27,7 @@ const checkSession = (req: RequestExt, res: Response, next: NextFunction) => {
       return;
     } else {
       req.user = isUser;
+      console.log(isUser);
       next();
     }
   } catch (error) {
@@ -33,4 +37,21 @@ const checkSession = (req: RequestExt, res: Response, next: NextFunction) => {
   }
 };
 
-export { checkSession };
+const refreshTokenMid = (
+  req: RequestExt,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const refreshToken = req.cookies["refreshToken"];
+    if (!refreshToken) throw new Error("No existe token");
+
+    const { id } = verifyToken(refreshToken) as JWTPayload;
+    req.uid = id;
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({ error });
+  }
+};
+export { checkSession, refreshTokenMid };

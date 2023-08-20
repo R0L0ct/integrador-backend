@@ -7,7 +7,14 @@ interface RequestExt extends Request {
 }
 const getAllOrders = async (req: RequestExt, res: Response) => {
   try {
-    const getOrders = await prisma.order.findMany();
+    const getOrders = await prisma.order.findMany({
+      include: {
+        order_product: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
     res.json(getOrders);
     res.send({
       data: "SOLO PERSONAS CON JWT",
@@ -25,7 +32,11 @@ const getOrder = async (req: Request, res: Response) => {
         id: req.params.id,
       },
       include: {
-        order_product: true,
+        order_product: {
+          select: {
+            inventory: true,
+          },
+        },
         customer: true,
       },
     });

@@ -1,7 +1,12 @@
 import { Request, Response } from "express";
 import { loginUser, registerNewUser } from "../services/auth.service";
 import prisma from "../config/prismaClient";
+import { generateToken } from "../utils/jwt.handle";
+import { JwtPayload } from "jsonwebtoken";
 
+interface RequestExt extends Request {
+  uid?: string | JwtPayload;
+}
 const register = async (req: Request, res: Response) => {
   const responseUser = await registerNewUser(req.body);
   res.send(responseUser);
@@ -9,30 +14,56 @@ const register = async (req: Request, res: Response) => {
 
 const login = async (req: Request, res: Response) => {
   const responseUser = await loginUser(req.body);
-  if (responseUser !== "NOT_FOUND_USER" && "INCORRECT_PASSWORD") {
-    res.cookie("USER-AUTH", responseUser, { sameSite: "lax" });
-    res.setHeader("authorization", `Bearer ${responseUser}`);
-    res.send("INGRESO EXITOSO");
+  if (
+    responseUser === "NOT_FOUND_USER" ||
+    responseUser === "INCORRECT_PASSWORD"
+  ) {
+    res
+      .status(401)
+      .json({ error: "Usuario no encontrado o contraseña incorrecta" });
+  } else {
+    const jwt = responseUser.token.jwt;
+
+    res.cookie("refreshToken", jwt, {
+      sameSite: "lax",
+      expires: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    });
+    res.json(responseUser);
   }
 };
 
-const logout = async (req: Request, res: Response) => {
-  const user = await prisma.user.findFirst({
-    where: {
-      sessionToken: req.cookies["USER-AUTH"],
-    },
-  });
-  if (user) {
-    await prisma.user.update({
+const logout = async (_req: Request, res: Response) => {
+  res.clearCookie("refreshToken");
+  res.json({ logout: true });
+};
+
+const refreshToken = async (req: RequestExt, res: Response) => {
+  try {
+    const token = generateToken(req.uid as string);
+    const getUser = await prisma.user.findFirst({
       where: {
-        email: user.email,
+        id: req.uid as string,
       },
-      data: {
-        sessionToken: "null",
+      select: {
+        id: true,
+        name: true,
       },
     });
-    res.clearCookie("USER-AUTH");
+    const user = {
+      id: getUser.id,
+      name: getUser.name,
+    };
+    res.cookie("refreshToken", token.jwt, {
+      sameSite: "lax",
+      expires: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    });
+    res.json({ token, user });
+  } catch (error) {
+    console.log(error);
+    res.status(500);
   }
 };
 
-export { register, login, logout };
+export { register, login, logout, refreshToken };

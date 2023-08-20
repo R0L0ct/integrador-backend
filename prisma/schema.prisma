@@ -41,6 +41,7 @@ model InventoryItems {
   stock   Int
   product Product? @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: SetNull)
   productId String? @db.ObjectId
+  order_product OrderProduct[]
 }
 
 model Customer {
@@ -66,6 +67,7 @@ model Category {
 model Order {
   id      String   @id @default(auto()) @map("_id") @db.ObjectId
   total Int
+  status String
   customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   customerId String? @db.ObjectId
   createdAt DateTime @default(now())
@@ -79,8 +81,10 @@ model OrderProduct {
   createdAt DateTime @default(now())
   order Order @relation(fields: [orderId], references: [id],onUpdate: Cascade, onDelete: Cascade)
   product Product? @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  inventory InventoryItems? @relation(fields: [inventoryId], references: [id], onUpdate: Cascade , onDelete: SetNull)
   orderId String @db.ObjectId
   productId String? @db.ObjectId
+  inventoryId String? @db.ObjectId
 
 }
 

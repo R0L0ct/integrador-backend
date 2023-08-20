@@ -21,8 +21,9 @@ const getCustomer = async (req: Request, res: Response) => {
     where: {
       id: req.params.id,
     },
-    include: {
-      user: true,
+    select: {
+      id: true,
+      userId: true,
     },
   });
   res.json(getCustomer);

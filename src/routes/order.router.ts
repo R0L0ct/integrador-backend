@@ -9,25 +9,29 @@ import {
 } from "../controllers/order.controller";
 import express from "express";
 import { validatorHandler } from "../middlewares/validator.middleware";
-import { createOrderSchema } from "../schemas/order.schema";
+import { createOrderSchema, updateOrderSchema } from "../schemas/order.schema";
 import { addItemsSchema } from "../schemas/order-product.schema";
 const router = express.Router();
 
-router.get("/", checkSession, getAllOrders);
-router.get("/:id", checkSession, getOrder);
+router.get("/", getAllOrders);
+router.get("/:id", getOrder);
 router.post(
   "/",
-  checkSession,
+  // checkSession,
   validatorHandler(createOrderSchema, "body"),
   createNewOrder
 );
 router.post(
-  "/add-item",
-  checkSession,
+  "/order-product",
   validatorHandler(addItemsSchema, "body"),
   addItem
 );
-router.patch("/:id", checkSession, updateOrder);
+router.patch(
+  "/:id",
+  checkSession,
+  validatorHandler(updateOrderSchema, "body"),
+  updateOrder
+);
 router.delete("/:id", checkSession, deleteOrder);
 
 export default router;

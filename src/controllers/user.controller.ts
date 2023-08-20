@@ -1,6 +1,9 @@
+import { verifyToken } from "../utils/jwt.handle";
 import prisma from "../config/prismaClient";
 import { Request, Response } from "express";
-
+interface JwtPayload {
+  id: string;
+}
 const getAllUsers = async (req: Request, res: Response) => {
   const getUsers = await prisma.user.findMany();
   res.json(getUsers);
@@ -42,20 +45,27 @@ const deleteUser = async (req: Request, res: Response) => {
 };
 
 const getUserBySessionToken = async (req: Request, res: Response) => {
-  const cookies = req.cookies["USER-AUTH"];
-  if (cookies) {
-    const getUser = await prisma.user.findFirst({
-      where: {
-        sessionToken: cookies,
-      },
-      select: {
-        name: true,
-        email: true,
-      },
-    });
-    // res.send(getUser);
-    res.json(getUser);
+  const token = req.cookies["refreshToken"];
+
+  if (!token) {
+    res.send("TOKEN NO VALIDO");
+    return;
   }
+
+  const { id } = verifyToken(token) as JwtPayload;
+
+  const getUser = await prisma.user.findFirst({
+    where: {
+      id: id,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+    },
+  });
+
+  res.json(getUser);
 };
 
 export {
