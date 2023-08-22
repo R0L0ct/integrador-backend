@@ -6,6 +6,7 @@ import { JwtPayload } from "jsonwebtoken";
 
 interface RequestExt extends Request {
   uid?: string | JwtPayload;
+  urole?: string | JwtPayload;
 }
 const register = async (req: Request, res: Response) => {
   const responseUser = await registerNewUser(req.body);
@@ -18,9 +19,7 @@ const login = async (req: Request, res: Response) => {
     responseUser === "NOT_FOUND_USER" ||
     responseUser === "INCORRECT_PASSWORD"
   ) {
-    res
-      .status(401)
-      .json({ error: "Usuario no encontrado o contraseña incorrecta" });
+    return res.json(responseUser);
   } else {
     const jwt = responseUser.token.jwt;
 
@@ -40,7 +39,7 @@ const logout = async (_req: Request, res: Response) => {
 
 const refreshToken = async (req: RequestExt, res: Response) => {
   try {
-    const token = generateToken(req.uid as string);
+    const token = generateToken(req.uid as string, req.urole as string);
     const getUser = await prisma.user.findFirst({
       where: {
         id: req.uid as string,

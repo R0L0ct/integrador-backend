@@ -8,12 +8,12 @@ const createNewCustomer = async (req: Request, res: Response) => {
       user: true,
     },
   });
-  res.json(createCustomer);
+  return res.json(createCustomer);
 };
 
 const getAllCustomers = async (req: Request, res: Response) => {
   const getCustomers = await prisma.customer.findMany();
-  res.json(getCustomers);
+  return res.json(getCustomers);
 };
 
 const getCustomer = async (req: Request, res: Response) => {
@@ -26,7 +26,7 @@ const getCustomer = async (req: Request, res: Response) => {
       userId: true,
     },
   });
-  res.json(getCustomer);
+  return res.json(getCustomer);
 };
 
 const updateCustomer = async (req: Request, res: Response) => {
@@ -36,7 +36,7 @@ const updateCustomer = async (req: Request, res: Response) => {
     },
     data: req.body,
   });
-  res.json(updateCustomer);
+  return res.json(updateCustomer);
 };
 
 const deleteCustomer = async (req: Request, res: Response) => {
@@ -45,7 +45,7 @@ const deleteCustomer = async (req: Request, res: Response) => {
       id: req.params.id,
     },
   });
-  res.json(deleteCustomer);
+  return res.json(deleteCustomer);
 };
 
 export {

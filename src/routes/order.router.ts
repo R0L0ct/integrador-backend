@@ -1,4 +1,7 @@
-import { checkSession } from "../middlewares/session.middleware";
+import {
+  checkAdminSession,
+  checkSession,
+} from "../middlewares/session.middleware";
 import {
   addItem,
   createNewOrder,
@@ -17,7 +20,7 @@ router.get("/", getAllOrders);
 router.get("/:id", getOrder);
 router.post(
   "/",
-  // checkSession,
+  checkSession,
   validatorHandler(createOrderSchema, "body"),
   createNewOrder
 );

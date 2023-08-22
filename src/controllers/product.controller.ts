@@ -5,7 +5,7 @@ const createNewProduct = async (req: Request, res: Response) => {
   const createProduct = await prisma.product.create({
     data: req.body,
   });
-  res.json(createProduct);
+  return res.json(createProduct);
 };
 
 const getAllProducts = async (_req: Request, res: Response) => {
@@ -15,7 +15,7 @@ const getAllProducts = async (_req: Request, res: Response) => {
       inventoryItems: true,
     },
   });
-  res.json(getProducts);
+  return res.json(getProducts);
 };
 
 const getProduct = async (req: Request, res: Response) => {
@@ -28,7 +28,7 @@ const getProduct = async (req: Request, res: Response) => {
       inventoryItems: true,
     },
   });
-  res.json(getProduct);
+  return res.json(getProduct);
 };
 
 const updateProduct = async (req: Request, res: Response) => {
@@ -38,7 +38,7 @@ const updateProduct = async (req: Request, res: Response) => {
     },
     data: req.body,
   });
-  res.json(updateProduct);
+  return res.json(updateProduct);
 };
 
 const deleteProduct = async (req: Request, res: Response) => {
@@ -47,7 +47,7 @@ const deleteProduct = async (req: Request, res: Response) => {
       id: req.params.id,
     },
   });
-  res.json(deleteProduct);
+  return res.json(deleteProduct);
 };
 
 // Inventory
@@ -81,7 +81,7 @@ const createInventoryItem = async (req: Request, res: Response) => {
     },
   });
 
-  res.json(createItem);
+  return res.json(createItem);
 };
 
 const updateInventoryItem = async (req: Request, res: Response) => {
@@ -116,7 +116,7 @@ const updateInventoryItem = async (req: Request, res: Response) => {
     },
   });
 
-  res.json(updateItem);
+  return res.json(updateItem);
 };
 
 const deleteInventoryItem = async (req: Request, res: Response) => {
@@ -125,7 +125,7 @@ const deleteInventoryItem = async (req: Request, res: Response) => {
       id: req.params.id,
     },
   });
-  res.json(deleteItem);
+  return res.json(deleteItem);
 };
 
 export {

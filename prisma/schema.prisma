@@ -33,6 +33,7 @@ model Product {
   categoryId String? @db.ObjectId
   order_product OrderProduct[]
   inventoryItems InventoryItems[]
+  recommended Boolean?
 }
 
 model InventoryItems {

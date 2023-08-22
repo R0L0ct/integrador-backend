@@ -5,12 +5,12 @@ const createNewCategory = async (req: Request, res: Response) => {
   const createCategory = await prisma.category.create({
     data: req.body,
   });
-  res.json(createCategory);
+  return res.json(createCategory);
 };
 
 const getAllCategories = async (_req: Request, res: Response) => {
   const getCategories = await prisma.category.findMany();
-  res.json(getCategories);
+  return res.json(getCategories);
 };
 
 const getCategory = async (req: Request, res: Response) => {
@@ -22,7 +22,7 @@ const getCategory = async (req: Request, res: Response) => {
       product: true,
     },
   });
-  res.json(getCategory);
+  return res.json(getCategory);
 };
 
 const updateCategory = async (req: Request, res: Response) => {
@@ -32,7 +32,7 @@ const updateCategory = async (req: Request, res: Response) => {
     },
     data: req.body,
   });
-  res.json(updateCategory);
+  return res.json(updateCategory);
 };
 
 const deleteCategory = async (req: Request, res: Response) => {
@@ -41,7 +41,7 @@ const deleteCategory = async (req: Request, res: Response) => {
       id: req.params.id,
     },
   });
-  res.json(deleteCategory);
+  return res.json(deleteCategory);
 };
 
 export {

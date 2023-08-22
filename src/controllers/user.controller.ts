@@ -6,7 +6,7 @@ interface JwtPayload {
 }
 const getAllUsers = async (req: Request, res: Response) => {
   const getUsers = await prisma.user.findMany();
-  res.json(getUsers);
+  return res.json(getUsers);
 };
 
 const getUser = async (req: Request, res: Response) => {
@@ -15,14 +15,14 @@ const getUser = async (req: Request, res: Response) => {
       id: req.params.id,
     },
   });
-  res.json(getUser);
+  return res.json(getUser);
 };
 
 const createUser = async (req: Request, res: Response) => {
   const createUser = await prisma.user.create({
     data: req.body,
   });
-  res.json(createUser);
+  return res.json(createUser);
 };
 
 const updateUser = async (req: Request, res: Response) => {
@@ -32,7 +32,7 @@ const updateUser = async (req: Request, res: Response) => {
     },
     data: req.body,
   });
-  res.json(updateUsers);
+  return res.json(updateUsers);
 };
 
 const deleteUser = async (req: Request, res: Response) => {
@@ -41,7 +41,7 @@ const deleteUser = async (req: Request, res: Response) => {
       id: req.params.id,
     },
   });
-  res.json(deleteUser);
+  return res.json(deleteUser);
 };
 
 const getUserBySessionToken = async (req: Request, res: Response) => {
@@ -65,7 +65,7 @@ const getUserBySessionToken = async (req: Request, res: Response) => {
     },
   });
 
-  res.json(getUser);
+  return res.json(getUser);
 };
 
 export {

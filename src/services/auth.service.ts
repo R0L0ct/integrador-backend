@@ -4,7 +4,7 @@ import { User } from "interfaces/user.interface";
 import { Auth } from "interfaces/auth.interface";
 import { generateToken } from "../utils/jwt.handle";
 
-const registerNewUser = async ({ email, password, name }: User) => {
+const registerNewUser = async ({ email, password, name, role }: User) => {
   const isCheck = await prisma.user.findFirst({
     where: {
       email: email,
@@ -17,6 +17,7 @@ const registerNewUser = async ({ email, password, name }: User) => {
       email,
       password: passHash,
       name,
+      role,
     },
   });
 
@@ -34,7 +35,7 @@ const loginUser = async ({ email, password }: Auth) => {
   const passwordHash = isCheck.password;
   const isCorrect = await verified(password, passwordHash);
   if (!isCorrect) return "INCORRECT_PASSWORD";
-  const token = generateToken(isCheck.id);
+  const token = generateToken(isCheck.id, isCheck.role);
   const data = {
     token,
     user: {

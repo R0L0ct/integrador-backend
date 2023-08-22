@@ -15,11 +15,7 @@ const getAllOrders = async (req: RequestExt, res: Response) => {
         createdAt: "desc",
       },
     });
-    res.json(getOrders);
-    res.send({
-      data: "SOLO PERSONAS CON JWT",
-      user: req.user,
-    });
+    return res.json(getOrders);
   } catch (error) {
     console.log(error);
   }
@@ -40,7 +36,7 @@ const getOrder = async (req: Request, res: Response) => {
         customer: true,
       },
     });
-    res.json(getOrder);
+    return res.json(getOrder);
   } catch (err) {
     console.log(err);
   }
@@ -51,7 +47,7 @@ const createNewOrder = async (req: Request, res: Response) => {
     const createOrder = await prisma.order.create({
       data: req.body,
     });
-    res.json(createOrder);
+    return res.json(createOrder);
   } catch (err) {
     console.log(err);
   }
@@ -62,7 +58,7 @@ const addItem = async (req: Request, res: Response) => {
     const addItem = await prisma.orderProduct.create({
       data: req.body,
     });
-    res.json(addItem);
+    return res.json(addItem);
   } catch (err) {
     console.log(err);
   }
@@ -76,7 +72,7 @@ const updateOrder = async (req: Request, res: Response) => {
       },
       data: req.body,
     });
-    res.json(updateOrder);
+    return res.json(updateOrder);
   } catch (err) {
     console.log(err);
   }
@@ -89,7 +85,7 @@ const deleteOrder = async (req: Request, res: Response) => {
         id: req.params.id,
       },
     });
-    res.json(deleteOrder);
+    return res.json(deleteOrder);
   } catch (err) {
     console.log(err);
   }
