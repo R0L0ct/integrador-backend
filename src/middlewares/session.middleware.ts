@@ -66,7 +66,7 @@ const checkAdminSession = (
       return;
     } else {
       req.user = isUser;
-      console.log(isUser);
+      // console.log(isUser);
       next();
     }
   } catch (error) {

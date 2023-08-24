@@ -17,7 +17,6 @@ model User {
   customer Customer[]
   createdAt DateTime  @default(now())
   updatedAt DateTime @updatedAt
-  sessionToken String? 
 }
 
 model Product {
@@ -33,7 +32,7 @@ model Product {
   categoryId String? @db.ObjectId
   order_product OrderProduct[]
   inventoryItems InventoryItems[]
-  recommended Boolean?
+  recommended Boolean? @default(false)
 }
 
 model InventoryItems {

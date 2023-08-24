@@ -1,6 +1,6 @@
 import joi from "joi";
 
-const name = joi.string();
+const name = joi.string().max(10);
 const email = joi.string().email();
 const password = joi.string();
 const role = joi.string();

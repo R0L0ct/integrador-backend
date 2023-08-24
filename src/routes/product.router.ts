@@ -16,6 +16,7 @@ import {
   updateInventoryItem,
   updateProduct,
 } from "../controllers/product.controller";
+import { checkAdminSession } from "../middlewares/session.middleware";
 const router = express.Router();
 
 router.post(
@@ -27,6 +28,7 @@ router.get("/", getAllProducts);
 router.get("/:id", getProduct);
 router.patch(
   "/:id",
+  checkAdminSession,
   validatorHandler(updateProductSchema, "body"),
   updateProduct
 );

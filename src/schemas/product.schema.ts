@@ -8,6 +8,7 @@ const stock = joi.number().integer();
 const categoryId = joi.string();
 const productId = joi.string();
 const size = joi.string();
+const recommended = joi.boolean();
 
 const createProductSchema = joi.object({
   name: name.required(),
@@ -15,6 +16,7 @@ const createProductSchema = joi.object({
   description: description.required(),
   price: price.required(),
   categoryId: categoryId.required(),
+  recommended: recommended,
 });
 
 const updateProductSchema = joi.object({
@@ -22,6 +24,7 @@ const updateProductSchema = joi.object({
   image: image,
   description: description,
   price: price,
+  recommended: recommended,
 });
 
 const createInventorySchema = joi.object({
