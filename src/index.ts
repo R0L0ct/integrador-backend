@@ -10,6 +10,7 @@ import {
   errorHandler,
   logErrors,
 } from "./middlewares/error.middleware";
+import { config } from "./infrastructure/config";
 const app = express();
 
 app.use(
@@ -31,6 +32,8 @@ app.use(errorHandler);
 
 const server = http.createServer(app);
 
-server.listen(3001, () => {
-  console.log("Server on port 3001");
+const port = config.server.port;
+
+server.listen(port, () => {
+  console.log(`Server on port ${port}`);
 });

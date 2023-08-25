@@ -6,6 +6,7 @@ import orderRouter from "../routes/order.router";
 import categoryRouter from "../routes/category.router";
 import productRouter from "../routes/product.router";
 import customerRouter from "../routes/customer.router";
+import nodemailerRouter from "../routes/nodemailer.router";
 
 const routerApi = (app: express.Express) => {
   const router = express.Router();
@@ -16,6 +17,7 @@ const routerApi = (app: express.Express) => {
   router.use("/category", categoryRouter);
   router.use("/product", productRouter);
   router.use("/customer", customerRouter);
+  router.use("/mail", nodemailerRouter);
 };
 
 export default routerApi;
