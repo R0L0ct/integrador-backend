@@ -24,7 +24,7 @@ const login = async (req: Request, res: Response) => {
     const jwt = responseUser.token.jwt;
 
     res.cookie("refreshToken", jwt, {
-      sameSite: "lax",
+      sameSite: "none",
       expires: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000),
       httpOnly: true,
       secure: true,
@@ -55,7 +55,7 @@ const refreshToken = async (req: RequestExt, res: Response) => {
       name: getUser.name,
     };
     res.cookie("refreshToken", token.jwt, {
-      sameSite: "lax",
+      sameSite: "none",
       expires: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000),
       httpOnly: true,
       secure: true,
