@@ -1,6 +1,7 @@
+import { config } from "../infrastructure/config";
 import { sign, verify } from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "token1234";
+const JWT_SECRET = config.jwtSecret;
 
 const generateToken = (id: string, role: string) => {
   const jwt = sign({ id, role }, JWT_SECRET, { expiresIn: 900 });

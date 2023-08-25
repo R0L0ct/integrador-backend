@@ -5,8 +5,7 @@ const config = {
     port: Number(process.env.PORT) || 3001,
   },
   env: process.env.NODE_ENV || "development",
-  sendgridApiKey: process.env.SENDGRID_API_KEY,
-  brevoApiKey: process.env.BREVO_API_KEY,
+  jwtSecret: process.env.JWT_SECRET || "token123",
 };
 
 export { config };
