@@ -16,7 +16,7 @@ const app = express();
 app.use(
   cors({
     // origin: "http://localhost:3000",
-    origin: "https://integrador-react-plum.vercel.app/",
+    origin: "https://integrador-react-plum.vercel.app",
     credentials: true,
   })
 );
