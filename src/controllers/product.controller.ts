@@ -52,6 +52,11 @@ const deleteProduct = async (req: Request, res: Response) => {
 
 // Inventory
 
+const getAllInventory = async (req: Request, res: Response) => {
+  const getInventory = await prisma.inventoryItems.findMany();
+  return res.json(getInventory);
+};
+
 const createInventoryItem = async (req: Request, res: Response) => {
   const createItem = await prisma.inventoryItems.create({
     data: req.body,
@@ -137,4 +142,5 @@ export {
   updateInventoryItem,
   deleteInventoryItem,
   deleteProduct,
+  getAllInventory,
 };

@@ -11,6 +11,7 @@ import {
   createNewProduct,
   deleteInventoryItem,
   deleteProduct,
+  getAllInventory,
   getAllProducts,
   getProduct,
   updateInventoryItem,
@@ -25,7 +26,9 @@ router.post(
   createNewProduct
 );
 router.get("/", getAllProducts);
+
 router.get("/:id", getProduct);
+
 router.patch(
   "/:id",
   checkAdminSession,
@@ -33,6 +36,8 @@ router.patch(
   updateProduct
 );
 router.delete("/:id", deleteProduct);
+
+router.get("/inventory", getAllInventory);
 
 router.post(
   "/inventory",
