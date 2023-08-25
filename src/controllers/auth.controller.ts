@@ -27,6 +27,7 @@ const login = async (req: Request, res: Response) => {
       sameSite: "lax",
       expires: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000),
       httpOnly: true,
+      secure: true,
     });
     res.json(responseUser);
   }
@@ -57,6 +58,7 @@ const refreshToken = async (req: RequestExt, res: Response) => {
       sameSite: "lax",
       expires: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000),
       httpOnly: true,
+      secure: true,
     });
     res.json({ token, user });
   } catch (error) {
