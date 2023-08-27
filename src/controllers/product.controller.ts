@@ -52,9 +52,9 @@ const deleteProduct = async (req: Request, res: Response) => {
 
 // Inventory
 
-const getAllInventory = async (req: Request, res: Response) => {
-  const getInventory = await prisma.inventoryItems.findMany();
-  return res.json(getInventory);
+const getAllInventory = async (_req: Request, res: Response) => {
+  const getAllInventory = await prisma.inventoryItems.findMany();
+  return res.json(getAllInventory);
 };
 
 const createInventoryItem = async (req: Request, res: Response) => {

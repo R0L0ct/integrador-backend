@@ -25,6 +25,8 @@ router.post(
   validatorHandler(createProductSchema, "body"),
   createNewProduct
 );
+router.get("/inventory", getAllInventory);
+
 router.get("/", getAllProducts);
 
 router.get("/:id", getProduct);
@@ -36,8 +38,6 @@ router.patch(
   updateProduct
 );
 router.delete("/:id", deleteProduct);
-
-router.get("/inventory", getAllInventory);
 
 router.post(
   "/inventory",
