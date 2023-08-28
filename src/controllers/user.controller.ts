@@ -44,29 +44,29 @@ const deleteUser = async (req: Request, res: Response) => {
   return res.json(deleteUser);
 };
 
-const getUserBySessionToken = async (req: Request, res: Response) => {
-  const token = req.cookies["refreshToken"];
+// const getUserBySessionToken = async (req: Request, res: Response) => {
+//   const token = req.cookies["refreshToken"];
 
-  if (!token) {
-    res.send("TOKEN NO VALIDO");
-    return;
-  }
+//   if (!token) {
+//     res.send("TOKEN NO VALIDO");
+//     return;
+//   }
 
-  const { id } = verifyToken(token) as JwtPayload;
+//   const { id } = verifyToken(token) as JwtPayload;
 
-  const getUser = await prisma.user.findFirst({
-    where: {
-      id: id,
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-    },
-  });
+//   const getUser = await prisma.user.findFirst({
+//     where: {
+//       id: id,
+//     },
+//     select: {
+//       id: true,
+//       name: true,
+//       email: true,
+//     },
+//   });
 
-  return res.json(getUser);
-};
+//   return res.json(getUser);
+// };
 
 export {
   getAllUsers,
@@ -74,5 +74,5 @@ export {
   createUser,
   updateUser,
   deleteUser,
-  getUserBySessionToken,
+  // getUserBySessionToken,
 };

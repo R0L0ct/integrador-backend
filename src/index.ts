@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
+import swaggerUI from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
 import routerApi from "./routes";
 import {
   boomErrorHandler,
@@ -11,6 +13,7 @@ import {
   logErrors,
 } from "./middlewares/error.middleware";
 import { config } from "./infrastructure/config";
+import { options } from "./swagger";
 const app = express();
 
 app.use(
@@ -25,7 +28,11 @@ app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
 
+const specs = swaggerJSDoc(options);
+
 routerApi(app);
+
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 app.use(logErrors);
 app.use(boomErrorHandler);
