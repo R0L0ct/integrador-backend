@@ -56,6 +56,7 @@ const router = express.Router();
  */
 router.post(
   "/",
+  checkAdminSession,
   validatorHandler(createProductSchema, "body"),
   createNewProduct
 );
@@ -139,7 +140,7 @@ router.patch(
  *      200:
  *        description: product deleted
  */
-router.delete("/:id", deleteProduct);
+router.delete("/:id", checkAdminSession, deleteProduct);
 
 /**
  * @swagger
@@ -169,6 +170,7 @@ router.delete("/:id", deleteProduct);
  */
 router.post(
   "/inventory",
+  checkAdminSession,
   validatorHandler(createInventorySchema, "body"),
   createInventoryItem
 );
@@ -195,6 +197,7 @@ router.post(
  */
 router.patch(
   "/inventory/:id",
+  checkAdminSession,
   validatorHandler(updateInventorySchema, "body"),
   updateInventoryItem
 );
@@ -209,6 +212,6 @@ router.patch(
  *      200:
  *        description: inventory deleted
  */
-router.delete("/inventory/:id", deleteInventoryItem);
+router.delete("/inventory/:id", checkAdminSession, deleteInventoryItem);
 
 export default router;

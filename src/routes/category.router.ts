@@ -11,6 +11,7 @@ import {
   getCategory,
   updateCategory,
 } from "../controllers/category.controller";
+import { checkAdminSession } from "../middlewares/session.middleware";
 const router = express.Router();
 
 /**
@@ -35,6 +36,7 @@ const router = express.Router();
  */
 router.post(
   "/",
+  checkAdminSession,
   validatorHandler(createCategorySchema, "body"),
   createNewCategory
 );
@@ -83,6 +85,7 @@ router.get("/:id", getCategory);
  */
 router.patch(
   "/:id",
+  checkAdminSession,
   validatorHandler(updateCategorySchema, "body"),
   updateCategory
 );
@@ -97,6 +100,6 @@ router.patch(
  *      200:
  *        description: category deleted
  */
-router.delete("/:id", deleteCategory);
+router.delete("/:id", checkAdminSession, deleteCategory);
 
 export default router;

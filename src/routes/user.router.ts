@@ -9,7 +9,10 @@ import {
 } from "../controllers/user.controller";
 import express from "express";
 import { createUserSchema, updateUserSchema } from "../schemas/user.schema";
-import { checkSession } from "../middlewares/session.middleware";
+import {
+  checkAdminSession,
+  checkSession,
+} from "../middlewares/session.middleware";
 const router = express.Router();
 
 /**
@@ -88,7 +91,12 @@ router.post("/", validatorHandler(createUserSchema, "body"), createUser);
  *      200:
  *        description: user updated
  */
-router.patch("/:id", validatorHandler(updateUserSchema, "body"), updateUser);
+router.patch(
+  "/:id",
+  checkAdminSession,
+  validatorHandler(updateUserSchema, "body"),
+  updateUser
+);
 
 /**
  * @swagger
@@ -97,6 +105,6 @@ router.patch("/:id", validatorHandler(updateUserSchema, "body"), updateUser);
  *    summary: delete a user
  *    tags: [User]
  */
-router.delete("/:id", checkSession, deleteUser);
+router.delete("/:id", checkAdminSession, deleteUser);
 
 export default router;
